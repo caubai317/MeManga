@@ -1,0 +1,126 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Project\\DotNetCore\\MeManga_v2\\api\\Orient.Base.Net.Core.Api\\Orient.Base.Net.Core.Api.csproj": {}
+  },
+  "projects": {
+    "D:\\Project\\DotNetCore\\MeManga_v2\\api\\Orient.Base.Net.Core.Api\\Orient.Base.Net.Core.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Project\\DotNetCore\\MeManga_v2\\api\\Orient.Base.Net.Core.Api\\Orient.Base.Net.Core.Api.csproj",
+        "projectName": "Orient.Base.Net.Core.Api",
+        "projectPath": "D:\\Project\\DotNetCore\\MeManga_v2\\api\\Orient.Base.Net.Core.Api\\Orient.Base.Net.Core.Api.csproj",
+        "packagesPath": "C:\\Users\\ThinkPad\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\DotNetCore\\MeManga_v2\\api\\Orient.Base.Net.Core.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ThinkPad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[6.2.2, )"
+            },
+            "JWT": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
+            "Microsoft.AspNetCore.All": {
+              "target": "Package",
+              "version": "[2.0.5, )"
+            },
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
+            "Microsoft.CodeAnalysis.Common": {
+              "target": "Package",
+              "version": "[2.8.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.1.9, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
+            "Sendgrid": {
+              "target": "Package",
+              "version": "[9.9.0, )"
+            },
+            "Serilog": {
+              "target": "Package",
+              "version": "[2.6.0, )"
+            },
+            "Serilog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[2.0.2, )"
+            },
+            "Serilog.Sinks.RollingFile": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            },
+            "Twilio": {
+              "target": "Package",
+              "version": "[5.27.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
