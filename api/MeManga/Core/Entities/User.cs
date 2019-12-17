@@ -74,6 +74,8 @@ namespace MeManga.Core.Entities
 
         public List<UserCollectionBook> UserCollectionBooks { get; set; }
 
+        public List<Book> BookTranslates { get; set; }
+
         #endregion
     }
 }

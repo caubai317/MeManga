@@ -37,6 +37,20 @@ namespace MeManga.Controllers
             return Ok(users);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            var responseModel = await _userService.GetUserByIdAsync(id);
+            if (responseModel.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Ok(responseModel);
+            }
+            else
+            {
+                return NotFound(new { message = responseModel.Message });
+            }
+        }
+
         [HttpPut("{id}")]
         [CustomAuthorize(Role = RoleConstants.ADMIN )]
         public async Task<IActionResult> Put(Guid id, [FromBody] UserUpdateProfileModel userUpdateProfileModel)

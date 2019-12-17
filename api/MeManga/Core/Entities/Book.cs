@@ -29,7 +29,7 @@ namespace MeManga.Core.Entities
                     return View;
                 }
 
-                return null;
+                return 0;
             }
         }
 
@@ -43,6 +43,10 @@ namespace MeManga.Core.Entities
         public Guid? WriterId { get; set; }
 
         public Writer Writer { get; set; }
+
+        public Guid? TranslatorId { get; set; }
+
+        public User Translator { get; set; }
 
         public List<UserCollectionBook> Ratings { get; set; }
 

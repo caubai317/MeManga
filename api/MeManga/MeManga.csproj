@@ -17,10 +17,6 @@
     <Compile Remove="Core\DataAccess\Repositories\RoleRepository.cs" />
     <Compile Remove="Core\DataAccess\Repositories\SSOAuthRepository.cs" />
     <Compile Remove="Core\DataAccess\Repositories\UserRepository.cs" />
-    <Compile Remove="Migrations\20190626042443_UpdateDatabaseV3.cs" />
-    <Compile Remove="Migrations\20190626042443_UpdateDatabaseV3.Designer.cs" />
-    <Compile Remove="Migrations\20190702064905_UpdateDatabaseV4.cs" />
-    <Compile Remove="Migrations\20190702064905_UpdateDatabaseV4.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

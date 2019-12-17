@@ -17,6 +17,7 @@ namespace MeManga.Core.Entities
         public int View { get; set; }
 
         public Guid BookId { get; set; }
+
         public Book Book { get; set; }
 
         public List<FilePath> PathImages { get; set; }

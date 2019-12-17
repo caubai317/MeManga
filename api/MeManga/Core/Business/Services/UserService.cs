@@ -22,6 +22,8 @@ namespace MeManga.Core.Business.Services
 
         Task<PagedList<UserViewModel>> ListUserAsync(UserRequestListViewModel userRequestListViewModel);
 
+        Task<ResponseModel> GetUserByIdAsync(Guid? id);
+
         Task<UserProfileViewModel> GetProfileByIdAsync(Guid? id);
 
         Task<ResponseModel> RegisterAsync(UserRegisterModel userRegisterModel);
@@ -66,7 +68,7 @@ namespace MeManga.Core.Business.Services
         private IQueryable<User> GetAll()
         {
             return _userRepository.GetAll()
-                        //.Include(x => x.UserInRoles)
+                        .Include(x => x.Role)
                         //    .ThenInclude(user => user.Role)
                     .Where(x => !x.RecordDeleted);
         }
@@ -122,6 +124,27 @@ namespace MeManga.Core.Business.Services
             list = userRequestListViewModel.IsDesc ? list.OrderByDescending(x => sortProperty.GetValue(x, null)).ToList() : list.OrderBy(x => sortProperty.GetValue(x, null)).ToList();
 
             return new PagedList<UserViewModel>(list, userRequestListViewModel.Skip ?? CommonConstants.Config.DEFAULT_SKIP, userRequestListViewModel.Take ?? CommonConstants.Config.DEFAULT_TAKE);
+        }
+
+        public async Task<ResponseModel> GetUserByIdAsync(Guid? id)
+        {
+            var user = await GetAll().FirstOrDefaultAsync(x => x.Id == id);
+            if (user != null)
+            {
+                return new ResponseModel()
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Data = new UserViewModel(user),
+                };
+            }
+            else
+            {
+                return new ResponseModel()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Message = MessageConstants.NOT_FOUND
+                };
+            }
         }
 
         public async Task<UserProfileViewModel> GetProfileByIdAsync(Guid? id)

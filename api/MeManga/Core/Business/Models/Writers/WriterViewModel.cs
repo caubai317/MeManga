@@ -23,7 +23,7 @@ namespace MeManga.Core.Business.Models.Writers
                 Name = writer.Name;
                 Information = writer.Information;
                 Books = writer.BookInWriters != null ? writer.BookInWriters
-                                                            .Select(y => new BookViewModel(y.Book))
+                                                            .Select(y => new BookInWriterViewModel(y.Book))
                                                             .ToArray() : null;
             }
         }
@@ -34,6 +34,6 @@ namespace MeManga.Core.Business.Models.Writers
 
         public string Information { get; set; }
 
-        public BookViewModel[] Books { get; set; }
+        public BookInWriterViewModel[] Books { get; set; }
     }
 }

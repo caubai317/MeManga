@@ -118,6 +118,11 @@ namespace MeManga
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ISSOAuthService, SSOAuthService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IChapterService, ChapterService>();
+            services.AddScoped<IWriterService, WriterService>();
+            services.AddScoped<IFilePathService, FilePathService>();
+
 
             //Register MemoryCacheManager
             services.AddScoped<ICacheManager, MemoryCacheManager>();

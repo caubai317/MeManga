@@ -4,13 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MeManga.Core.Entities
 {
     [Table("FilePath")]
-    public class FilePath
+    public class FilePath : BaseEntity
     {
-        public FilePath()
+        public FilePath() : base()
         {
-            Id = Guid.NewGuid();
+
         }
-        public Guid Id { get; set; }
 
         public int PageNumber { get; set; }
 
