@@ -14,7 +14,9 @@ namespace MeManga.Core.Business.Models.Books
 
         public string Overall { get; set; }
 
-        public Guid WriterId { get; set; }
+        public Guid[] WriterIds { get; set; }
+
+        public Guid[] TypeIds { get; set; }
 
         public Guid? TranslatorId { get; set; }
 
@@ -23,7 +25,7 @@ namespace MeManga.Core.Business.Models.Books
             book.Name = Name;
             book.Avatar = Avatar;
             book.Overall = Overall;
-            book.WriterId = WriterId;
+            //book.WriterId = WriterId;
             book.TranslatorId = TranslatorId;
         }
 

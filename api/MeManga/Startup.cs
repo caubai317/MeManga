@@ -105,6 +105,7 @@ namespace MeManga
                 config.AddProfile<WriterProfile>();
                 config.AddProfile<RoleProfile>();
                 config.AddProfile<FilePathProfile>();
+                config.AddProfile<TypeBookProfile>();
             });
 
             var conn = Configuration.GetConnectionString("DefaultConnectionString");
@@ -122,6 +123,7 @@ namespace MeManga
             services.AddScoped<IChapterService, ChapterService>();
             services.AddScoped<IWriterService, WriterService>();
             services.AddScoped<IFilePathService, FilePathService>();
+            services.AddScoped<ITypeBookService, TypeBookService>();
 
 
             //Register MemoryCacheManager

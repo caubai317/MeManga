@@ -27,6 +27,10 @@ namespace MeManga.Core.Business.Services
 
         Task<ResponseModel> UpdateBookAsync(Guid id, BookManageModel bookManageModel);
 
+        Task<ResponseModel> UpdateBookTypeAsync(Guid id, BookTypeManageModel bookTypeManageModel);
+
+        Task<ResponseModel> UpdateBookWriterAsync(Guid id, BookWriterManageModel bookWriterManageModel);
+
         Task<ResponseModel> DeleteBookAsync(Guid id);
     }
     public class BookService : IBookService
@@ -115,7 +119,7 @@ namespace MeManga.Core.Business.Services
                 return new ResponseModel()
                 {
                     StatusCode = System.Net.HttpStatusCode.OK,
-                    Data = new BookViewModel(book),
+                    Data = new BookViewByIdModel(book),
                 };
             }
             else
@@ -141,20 +145,32 @@ namespace MeManga.Core.Business.Services
             }
             else
             {
-                var writer = await _bookRepository.FetchFirstAsync(x => x.Name == bookManageModel.Name);
+                //var writer = await _bookRepository.FetchFirstAsync(x => x.Name == bookManageModel.Name);
 
                 // Create Book
                 book = AutoMapper.Mapper.Map<Book>(bookManageModel);
 
                 await _bookRepository.InsertAsync(book);
 
-                var newBookInWriter = new BookInWriter
+                foreach (var writerId in bookManageModel.WriterIds)
                 {
-                    WriterId = bookManageModel.WriterId,
-                    BookId = book.Id
-                };
+                    var newBookInWriter = new BookInWriter
+                    {
+                        WriterId = writerId,
+                        BookId = book.Id
+                    };
+                    await _bookInWriterRepository.InsertAsync(newBookInWriter);
+                }
 
-                await _bookInWriterRepository.InsertAsync(newBookInWriter);
+                foreach (var typeId in bookManageModel.TypeIds)
+                {
+                    var newBookInType = new BookInType
+                    {
+                        TypeBookId = typeId,
+                        BookId = book.Id
+                    };
+                    await _bookInTypeRepository.InsertAsync(newBookInType);
+                }
 
                 book = await GetAll().FirstOrDefaultAsync(x => x.Id == book.Id);
                 return new ResponseModel()
@@ -190,25 +206,25 @@ namespace MeManga.Core.Business.Services
                 }
                 else
                 {
-                    if (bookManageModel.WriterId != book.WriterId)
-                    {
-                        var bookInWriter = _bookInWriterRepository.GetAll().Where(x => x.WriterId == book.WriterId
-                                                                                      && x.BookId == book.Id);
-                        if (bookInWriter != null)
-                        {
-                            await _bookInWriterRepository.DeleteAsync(bookInWriter);
+                    //if (bookManageModel.WriterId != book.WriterId)
+                    //{
+                    //    var bookInWriter = _bookInWriterRepository.GetAll().Where(x => x.WriterId == book.WriterId
+                    //                                                                  && x.BookId == book.Id);
+                    //    if (bookInWriter != null)
+                    //    {
+                    //        await _bookInWriterRepository.DeleteAsync(bookInWriter);
 
-                            if(bookManageModel.WriterId != null)
-                            {
-                                var newBookInWriter = new BookInWriter
-                                {
-                                    WriterId = bookManageModel.WriterId,
-                                    BookId = book.Id
-                                };
-                                await _bookInWriterRepository.InsertAsync(newBookInWriter);
-                            }
-                        }
-                    }
+                    //        if(bookManageModel.WriterId != null)
+                    //        {
+                    //            var newBookInWriter = new BookInWriter
+                    //            {
+                    //                WriterId = bookManageModel.WriterId,
+                    //                BookId = book.Id
+                    //            };
+                    //            await _bookInWriterRepository.InsertAsync(newBookInWriter);
+                    //        }
+                    //    }
+                    //}
 
                     bookManageModel.SetDataToModel(book);
                     await _bookRepository.UpdateAsync(book);
@@ -221,6 +237,82 @@ namespace MeManga.Core.Business.Services
                     };
                 }
 
+            }
+        }
+
+        public async Task<ResponseModel> UpdateBookTypeAsync(Guid id, BookTypeManageModel bookTypeManageModel)
+        {
+            var book = await GetAll().FirstOrDefaultAsync(x => x.Id == id);
+            if (book == null)
+            {
+                return new ResponseModel()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Message = MessageConstants.NOT_FOUND
+                };
+            }
+            else
+            {
+                var bookInType = _bookInTypeRepository.GetAll().Where(x => x.BookId == book.Id);
+                if (bookInType != null)
+                {
+                    await _bookInTypeRepository.DeleteAsync(bookInType);
+                }
+
+                foreach (var typeId in bookTypeManageModel.TypeIds)
+                {
+                    var newBookInType = new BookInType
+                    {
+                        TypeBookId = typeId,
+                        BookId = book.Id
+                    };
+                    await _bookInTypeRepository.InsertAsync(newBookInType);
+                }
+
+                return new ResponseModel()
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Data = new BookViewByIdModel(book),
+                    Message = MessageConstants.UPDATED_SUCCESSFULLY
+                };
+            }
+        }
+
+        public async Task<ResponseModel> UpdateBookWriterAsync(Guid id, BookWriterManageModel bookWriterManageModel)
+        {
+            var book = await GetAll().FirstOrDefaultAsync(x => x.Id == id);
+            if (book == null)
+            {
+                return new ResponseModel()
+                {
+                    StatusCode = System.Net.HttpStatusCode.NotFound,
+                    Message = MessageConstants.NOT_FOUND
+                };
+            }
+            else
+            {
+                var bookInWriter = _bookInWriterRepository.GetAll().Where(x => x.BookId == book.Id);
+                if (bookInWriter != null)
+                {
+                    await _bookInWriterRepository.DeleteAsync(bookInWriter);
+                }
+
+                foreach (var writerId in bookWriterManageModel.WriterIds)
+                {
+                    var newBookInWriter = new BookInWriter
+                    {
+                        WriterId = writerId,
+                        BookId = book.Id
+                    };
+                    await _bookInWriterRepository.InsertAsync(newBookInWriter);
+                }
+
+                return new ResponseModel()
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Data = new BookViewByIdModel(book),
+                    Message = MessageConstants.UPDATED_SUCCESSFULLY
+                };
             }
         }
 

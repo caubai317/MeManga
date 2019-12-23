@@ -40,9 +40,9 @@ namespace MeManga.Core.Entities
 
         public string Overall { get; set; }
 
-        public Guid? WriterId { get; set; }
+        //public Guid? WriterId { get; set; }
 
-        public Writer Writer { get; set; }
+        //public Writer Writer { get; set; }
 
         public Guid? TranslatorId { get; set; }
 

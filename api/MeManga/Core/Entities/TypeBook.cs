@@ -16,7 +16,7 @@ namespace MeManga.Core.Entities
 
         public string Name { get; set; }
 
-        public int? Count { get; set; }
+        //public int? Count { get; set; }
 
         public List<BookInType> BookInTypes { get; set; }
     }

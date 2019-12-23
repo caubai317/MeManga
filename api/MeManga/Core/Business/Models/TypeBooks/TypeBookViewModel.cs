@@ -17,9 +17,12 @@ namespace MeManga.Core.Business.Models.TypeBooks
         {
             if(typeBook != null)
             {
+                Id = typeBook.Id;
                 Name = typeBook.Name;
             }            
         }
+
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
     }

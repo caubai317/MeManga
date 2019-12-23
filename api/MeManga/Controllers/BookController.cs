@@ -77,6 +77,34 @@ namespace MeManga.Controllers
             }
         }
 
+        [HttpPut("type/{id}")]
+        public async Task<IActionResult> UpdateTypeBook(Guid id, [FromBody] BookTypeManageModel bookViewModel)
+        {
+            var responseModel = await _bookService.UpdateBookTypeAsync(id, bookViewModel);
+            if (responseModel.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Ok(responseModel);
+            }
+            else
+            {
+                return BadRequest(new { Message = responseModel.Message });
+            }
+        }
+
+        [HttpPut("writer/{id}")]
+        public async Task<IActionResult> UpdateWriterBook(Guid id, [FromBody] BookWriterManageModel bookViewModel)
+        {
+            var responseModel = await _bookService.UpdateBookWriterAsync(id, bookViewModel);
+            if (responseModel.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Ok(responseModel);
+            }
+            else
+            {
+                return BadRequest(new { Message = responseModel.Message });
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

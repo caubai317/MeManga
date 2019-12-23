@@ -1,5 +1,4 @@
-﻿using MeManga.Core.Business.Models.Base;
-using MeManga.Core.Business.Models.TypeBooks;
+﻿using MeManga.Core.Business.Models.TypeBooks;
 using MeManga.Core.Business.Models.Writers;
 using MeManga.Core.Entities;
 using System;
@@ -10,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace MeManga.Core.Business.Models.Books
 {
-    public class BookViewModel
+    public class BookViewByIdModel
     {
-        public BookViewModel()
+        public BookViewByIdModel()
         {
 
         }
 
-        public BookViewModel(Book book) : this()
+        public BookViewByIdModel(Book book) : this()
         {
             if (book != null)
             {
@@ -25,6 +24,9 @@ namespace MeManga.Core.Business.Models.Books
                 Name = book.Name;
                 Avatar = book.Avatar;
                 Overall = book.Overall;
+                Writers = book.BookInWriters != null ? book.BookInWriters.Select(y => new WriterInBookViewModel(y.Writer)).ToArray() : null;
+                TypeBooks = book.BookInTypes != null ? book.BookInTypes.Select(y => new TypeBookViewModel(y.TypeBook)).ToArray() : null;
+                TranslatorId = book.TranslatorId;
                 ChapterNumber = book.Chapters != null ? book.Chapters.Count : 0;
             }
         }
@@ -37,6 +39,12 @@ namespace MeManga.Core.Business.Models.Books
         public string Avatar { get; set; }
 
         public string Overall { get; set; }
+
+        public WriterInBookViewModel[] Writers { get; set; }
+
+        public TypeBookViewModel[] TypeBooks { get; set; }
+
+        public Guid? TranslatorId { get; set; }
 
         public int ChapterNumber { get; set; }
     }
