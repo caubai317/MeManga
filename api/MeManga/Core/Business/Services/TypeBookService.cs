@@ -47,7 +47,7 @@ namespace MeManga.Core.Business.Services
         {
             return _typeBookRepository.GetAll()
                         .Include(x => x.BookInTypes)
-                            .ThenInclude(book => book.TypeBook)
+                            .ThenInclude(book => book.Book)
                     .Where(x => !x.RecordDeleted);
         }
 
