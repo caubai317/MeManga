@@ -30,6 +30,8 @@ using MeManga.Core.Common.Utilities;
 using System.Collections.Generic;
 using System;
 using MeManga.Core.Entities.Enums;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 
 namespace MeManga
 {
@@ -40,18 +42,20 @@ namespace MeManga
         /// </summary>
         public static IConfigurationRoot Configuration;
 
+        public static IContainer container { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
+            var builder2 = new ConfigurationBuilder()
               .SetBasePath(env.ContentRootPath)
               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-            builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
+            builder2.AddEnvironmentVariables();
+            Configuration = builder2.Build();
 
 
             var logPath = Configuration["AppSettings:LoggingPath"] + "Orient-{Date}-" + System.Environment.MachineName + ".txt";
@@ -62,13 +66,13 @@ namespace MeManga
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             // Add service and create Policy with options
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                  builder => builder.AllowAnyOrigin()
+                  builder2 => builder2.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials());
@@ -156,13 +160,22 @@ namespace MeManga
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;
                 var xmlPath = Path.Combine(basePath, "MeManga.xml");
                 c.IncludeXmlComments(xmlPath);
+
+                
             });
 
             services.AddAuthentication(Microsoft.AspNetCore.Server.IISIntegration.IISDefaults.AuthenticationScheme);
+
+            var builder = new ContainerBuilder();
+
+            builder.Populate(services);
+
+            container = builder.Build();
+            return new AutofacServiceProvider(container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime applicationLifetime)
         {
             // global policy - assign here or on each controller
             app.UseCors("CorsPolicy");
@@ -190,6 +203,8 @@ namespace MeManga
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orient API V1");
             });
             app.UseMvc();
+
+            applicationLifetime.ApplicationStopped.Register(() => container.Dispose());
 
             // Auto run migration
             RunMigration(app);
